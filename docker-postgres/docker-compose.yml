@@ -1,0 +1,25 @@
+version: "3"
+
+#before use cmd: docker volume create --name postgres-data-volume -d local
+
+services:
+  db:
+    image: postgres
+    volumes:
+      - postgres-data-volume:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+
+  adminer:
+    image: adminer
+    volumes:
+      - postgres-data-volume:/var/lib/postgresql/data/pgdata
+    ports:
+      - "8080:8080"
+
+volumes:
+  postgres-data-volume:
+    external: true
